@@ -34,6 +34,8 @@ public class Register extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
 
+    public static final String MyPREFERENCES = "MyPrefs" ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,10 +57,12 @@ public class Register extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(),LogIn.class);
                 startActivity(i);
+
+                sharedPreferences = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
             }
         });
 
-        sharedPreferences = getSharedPreferences("reg", MODE_PRIVATE);
+
 
         reg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +79,10 @@ public class Register extends AppCompatActivity {
                                     //If we are getting success from server
 
                                     Toast.makeText(Register.this,response,Toast.LENGTH_LONG).show();
+
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("UserName", uname.getText().toString());
+                                    editor.commit();
 
                                     try {
                                         JSONArray jsonArray=new JSONArray(response);
