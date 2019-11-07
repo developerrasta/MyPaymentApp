@@ -31,7 +31,7 @@ public class LogIn extends AppCompatActivity {
 
     EditText uname,pword;
     Button log;
-
+    String a;
     SharedPreferences sharedPreferences;
 
     public static final String MyPREFERENCES = "MyPrefs" ;
@@ -67,8 +67,7 @@ public class LogIn extends AppCompatActivity {
                                         editor.putString("UserName", uname.getText().toString());
                                         editor.apply();
 
-                                        Intent i= new Intent(getApplicationContext(),Profile.class);
-                                        startActivity(i);
+
 
                                     }
                                     else
@@ -79,7 +78,10 @@ public class LogIn extends AppCompatActivity {
                                         JSONArray jsonArray=new JSONArray(response);
                                         for(int i=0;i<jsonArray.length();i++){
                                             JSONObject json_obj = jsonArray.getJSONObject(i);
-
+                                             a=json_obj.getString("serialkey");
+                                            Intent i1= new Intent(getApplicationContext(),Profile.class);
+                                            i1.putExtra("key",a);
+                                            startActivity(i1);
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -110,6 +112,7 @@ public class LogIn extends AppCompatActivity {
                     RequestQueue requestQueue = Volley.newRequestQueue(LogIn.this);
                     requestQueue.add(stringRequest);
                 }
+
                 else
                 {
                     //if values are incorrect
