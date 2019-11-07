@@ -32,9 +32,9 @@ public class Register extends AppCompatActivity {
     Button reg,log;
     EditText name,phno,uname,upi,pword,cpword;
 
-    SharedPreferences sharedPreferences;
 
-    public static final String MyPREFERENCES = "MyPrefs" ;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +58,7 @@ public class Register extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(),LogIn.class);
                 startActivity(i);
 
-                sharedPreferences = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+
             }
         });
 
@@ -80,9 +80,7 @@ public class Register extends AppCompatActivity {
 
                                     Toast.makeText(Register.this,response,Toast.LENGTH_LONG).show();
 
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.putString("UserName", uname.getText().toString());
-                                    editor.commit();
+
 
                                     try {
                                         JSONArray jsonArray=new JSONArray(response);
@@ -108,7 +106,7 @@ public class Register extends AppCompatActivity {
                             Map<String,String> params = new HashMap<>();
                             //Adding parameters to request
 
-                            params.put("name",name.getText().toString());
+                            params.put("name",name.getText().toString()); //name=$_POST['name'];
                             params.put("phonenum",phno.getText().toString());
                             params.put("username",uname.getText().toString());
                             params.put("upiid",upi.getText().toString());

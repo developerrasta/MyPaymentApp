@@ -31,8 +31,8 @@ public class Profile extends AppCompatActivity {
     ImageView pro;
     Button chg;
     TextView upi,uname;
-    String UserName;
-    String upikey;
+    String userName;
+    String showupikey,showuser;
 
     SharedPreferences sharedPreferences;
 
@@ -47,24 +47,29 @@ public class Profile extends AppCompatActivity {
         chg = findViewById(R.id.btnprofilepic);
 
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        UserName = sharedPreferences.getString("UserName", "*****");
-        Toast.makeText(Profile.this,UserName,Toast.LENGTH_SHORT).show();
+
+        //fetching shared preference data
+        userName = sharedPreferences.getString("UserName", "*****");
+
+        //Toast.makeText(Profile.this,userName,Toast.LENGTH_SHORT).show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://lilac-wing.000webhostapp.com/Payment%20Application/Profile.php",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         //If we are getting success from server
-                        Toast.makeText(Profile.this, response, Toast.LENGTH_LONG).show();
+                        //Toast.makeText(Profile.this, response, Toast.LENGTH_LONG).show();
                         try {
                             JSONArray jsonArray = new JSONArray(response);
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject json_obj = jsonArray.getJSONObject(i);
-                                upikey = json_obj.getString("upi");
-                                upi.setText(upikey);
+                                showupikey = json_obj.getString("upi");
+                                showuser = json_obj.getString("username");
+                                upi.setText(showupikey);
+                                uname.setText(showuser);
 
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("SerialKey",upikey);
+                                editor.putString("UpiKey",showupikey);
                                 editor.apply();
 
                             }
@@ -86,7 +91,8 @@ public class Profile extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
                 //Adding parameters to request
 
-                params.put("username", UserName);
+
+                params.put("username", userName); //userName = data stored in shared preference
 
                 //returning parameter
                 return params;

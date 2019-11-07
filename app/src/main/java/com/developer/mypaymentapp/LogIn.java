@@ -3,6 +3,7 @@ package com.developer.mypaymentapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +32,10 @@ public class LogIn extends AppCompatActivity {
     EditText uname,pword;
     Button log;
 
+    SharedPreferences sharedPreferences;
+
+    public static final String MyPREFERENCES = "MyPrefs" ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +49,9 @@ public class LogIn extends AppCompatActivity {
         log.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                sharedPreferences = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE); //MyPREFERENCES="MyPrefs"
+
                 if(!(uname.getText().toString().isEmpty()||pword.getText().toString().isEmpty()))
                 {
                     StringRequest stringRequest = new StringRequest(Request.Method.POST,"https://lilac-wing.000webhostapp.com/Payment%20Application/Login.php",
@@ -53,6 +61,11 @@ public class LogIn extends AppCompatActivity {
                                     Toast.makeText(LogIn.this, response, Toast.LENGTH_LONG).show();
                                     if(response.equals("success")) {
                                         //If we are getting success from server
+
+                                        //saving to shared preference
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString("UserName", uname.getText().toString());
+                                        editor.apply();
 
                                         Intent i= new Intent(getApplicationContext(),Profile.class);
                                         startActivity(i);
