@@ -151,7 +151,7 @@ public class Profile extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.wallet, menu);
+        getMenuInflater().inflate(R.menu.options, menu);
         return true;
     }
 
@@ -160,8 +160,21 @@ public class Profile extends AppCompatActivity {
         int id = item.getItemId();
         switch (id){
             case R.id.wallet:
-                Toast.makeText(getApplicationContext(),"Item 1 Selected",Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(),"Item 1 Selected",Toast.LENGTH_LONG).show();
+                Intent w = new Intent(getApplicationContext(),Wallet.class);
+                startActivity(w);
                 return true;
+
+            case R.id.payment:
+                Intent p = new Intent(getApplicationContext(),QRCodeShow.class);
+                startActivity(p);
+                return true;
+
+            case R.id.qrcode:
+                Intent q = new Intent(getApplicationContext(),QRCodeScanner.class);
+                startActivity(q);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
