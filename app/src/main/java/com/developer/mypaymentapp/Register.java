@@ -3,7 +3,6 @@ package com.developer.mypaymentapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -46,7 +45,7 @@ public class Register extends AppCompatActivity {
 
         name = findViewById(R.id.name); //name
         phno = findViewById(R.id.phonenumber); //password
-        uname = findViewById(R.id.username); //username
+        uname = findViewById(R.id.usernameee); //username
         upi = findViewById(R.id.upiid); //upi id
         pword = findViewById(R.id.password); //password
         cpword = findViewById(R.id.cpassword); //confirm password
@@ -71,7 +70,7 @@ public class Register extends AppCompatActivity {
                 if(!(name.getText().toString().isEmpty()||phno.getText().toString().isEmpty()||uname.getText().toString().isEmpty()||upi.getText().toString().isEmpty()||pword.getText().toString().isEmpty()||cpword.getText().toString().isEmpty())&&(pword.getText().toString().equals(cpword.getText().toString())))
                 {
                     //storing values to database
-                    StringRequest stringRequest = new StringRequest(Request.Method.POST,"https://lilac-wing.000webhostapp.com/Payment%20Application/Register.php",
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST,"https://lilac-wing.000webhostapp.com/PaymentApplication/Register.php",
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {

@@ -13,18 +13,11 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,21 +26,20 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.jar.Attributes;
 
 public class Profile extends AppCompatActivity {
 
     ImageView pro;
     Button chg;
     TextView upi, uname;
-    String userName,key;
+    String userName,key,imagekey;
     String showupikey, showuser;
     private int PICK_IMAGE_REQUEST = 1;
     private Uri filePath;
     SharedPreferences sharedPreferences;
     Bitmap bitmap;
     Intent j;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,12 +47,15 @@ public class Profile extends AppCompatActivity {
 
         pro = findViewById(R.id.profilepic);
         upi = findViewById(R.id.upiid);
-        uname = findViewById(R.id.username);
+        uname = findViewById(R.id.usernamee);
         chg = findViewById(R.id.btnprofilepic);
 
         j=getIntent();
-        key=j.getStringExtra("key");
 
+
+        key = j.getStringExtra("key");
+        imagekey=j.getStringExtra("imagekey");
+        Picasso.get().load(imagekey).into(pro);
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
 
         //fetching shared preference data
@@ -72,7 +67,7 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showFileChooser();
-                uploadImage();
+
 
             }
         });
@@ -94,6 +89,8 @@ public class Profile extends AppCompatActivity {
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                     pro.setImageBitmap(bitmap);
+                    getStringImage(bitmap);
+                    uploadImage();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -140,7 +137,7 @@ public class Profile extends AppCompatActivity {
                     data.put("dkey",key);
 
 
-                    String result = rh.sendPostRequest("https://lilac-wing.000webhostapp.com/Payment%20Application/upload.php",data);
+                    String result = rh.sendPostRequest("https://lilac-wing.000webhostapp.com/PaymentApplication/upload.php",data);
 
                     return result;
                 }

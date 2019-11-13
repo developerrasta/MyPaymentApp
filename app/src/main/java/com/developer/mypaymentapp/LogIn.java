@@ -31,7 +31,7 @@ public class LogIn extends AppCompatActivity {
 
     EditText uname,pword;
     Button log;
-    String a;
+    String a,image;
     SharedPreferences sharedPreferences;
 
     public static final String MyPREFERENCES = "MyPrefs" ;
@@ -54,12 +54,12 @@ public class LogIn extends AppCompatActivity {
 
                 if(!(uname.getText().toString().isEmpty()||pword.getText().toString().isEmpty()))
                 {
-                    StringRequest stringRequest = new StringRequest(Request.Method.POST,"https://lilac-wing.000webhostapp.com/Payment%20Application/Login.php",
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST,"https://lilac-wing.000webhostapp.com/PaymentApplication/Login.php",
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
                                     Toast.makeText(LogIn.this, response, Toast.LENGTH_LONG).show();
-                                    if(response.equals("success")) {
+                                    if(response.contains("success")) {
                                         //If we are getting success from server
 
                                         //saving to shared preference
@@ -79,14 +79,16 @@ public class LogIn extends AppCompatActivity {
                                         for(int i=0;i<jsonArray.length();i++){
                                             JSONObject json_obj = jsonArray.getJSONObject(i);
                                              a=json_obj.getString("serialkey");
-                                            Intent i1= new Intent(getApplicationContext(),Profile.class);
-                                            i1.putExtra("key",a);
-                                            startActivity(i1);
+                                             image=json_obj.getString("image");
+
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
-
+                                    Intent i1= new Intent(getApplicationContext(),Profile.class);
+                                    i1.putExtra("key",a);
+                                    i1.putExtra("imagekey",image);
+                                    startActivity(i1);
                                 }
                             },
                             new Response.ErrorListener() {
@@ -95,7 +97,11 @@ public class LogIn extends AppCompatActivity {
                                     //error handling
                                 }
 
-                            }){
+
+                            }
+                            )
+
+                    {
                         @Override
                         protected Map<String, String> getParams() throws AuthFailureError {
                             Map<String,String> params = new HashMap<>();
