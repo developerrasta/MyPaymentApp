@@ -52,12 +52,14 @@ public class Profile extends AppCompatActivity {
         uname = findViewById(R.id.usernamee);
         chg = findViewById(R.id.btnprofilepic);
 
+        //retrive intent data
         j=getIntent();
 
+        key = j.getStringExtra("key"); //
+        imagekey = j.getStringExtra("imagekey");
 
-        key = j.getStringExtra("key");
-        imagekey=j.getStringExtra("imagekey");
         Picasso.get().load(imagekey).into(pro);
+
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
 
         //fetching shared preference data

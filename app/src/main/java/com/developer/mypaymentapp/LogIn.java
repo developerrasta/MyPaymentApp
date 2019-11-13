@@ -64,7 +64,7 @@ public class LogIn extends AppCompatActivity {
 
                                         //saving to shared preference
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        editor.putString("UserName", uname.getText().toString());
+                                        editor.putString("UserName", uname.getText().toString()); //UserName=key
                                         editor.apply();
 
 
@@ -75,19 +75,26 @@ public class LogIn extends AppCompatActivity {
                                         Toast.makeText(LogIn.this,"invalid",Toast.LENGTH_LONG).show();
                                     }
                                     try {
+                                        //retrive json data
                                         JSONArray jsonArray=new JSONArray(response);
                                         for(int i=0;i<jsonArray.length();i++){
                                             JSONObject json_obj = jsonArray.getJSONObject(i);
-                                             a=json_obj.getString("serialkey");
-                                             image=json_obj.getString("image");
+                                             a=json_obj.getString("serialkey"); //serialkey=column name in table
+                                             image=json_obj.getString("image"); //image=column name in table
 
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
                                     Intent i1= new Intent(getApplicationContext(),Profile.class);
+                                    //passing data to another activity using intent
+
+
                                     i1.putExtra("key",a);
                                     i1.putExtra("imagekey",image);
+
+                                    //the  data in a& image is stored in key & imagekey
+
                                     startActivity(i1);
                                 }
                             },

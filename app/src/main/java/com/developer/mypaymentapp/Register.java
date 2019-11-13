@@ -66,10 +66,12 @@ public class Register extends AppCompatActivity {
         reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //checking wether edittext is empty and passwords are entered same
+                //checking whether edit text is empty and passwords are entered same
+
                 if(!(name.getText().toString().isEmpty()||phno.getText().toString().isEmpty()||uname.getText().toString().isEmpty()||upi.getText().toString().isEmpty()||pword.getText().toString().isEmpty()||cpword.getText().toString().isEmpty())&&(pword.getText().toString().equals(cpword.getText().toString())))
                 {
                     //storing values to database
+
                     StringRequest stringRequest = new StringRequest(Request.Method.POST,"https://lilac-wing.000webhostapp.com/PaymentApplication/Register.php",
                             new Response.Listener<String>() {
                                 @Override
