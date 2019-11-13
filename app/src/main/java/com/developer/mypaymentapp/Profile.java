@@ -56,7 +56,6 @@ public class Profile extends AppCompatActivity {
         j=getIntent();
 
         key = j.getStringExtra("key"); //
-        
         imagekey = j.getStringExtra("imagekey");
 
         Picasso.get().load(imagekey).into(pro);
