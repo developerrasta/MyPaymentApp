@@ -18,7 +18,7 @@ public class QRCodeScanner extends AppCompatActivity {
     Button scan;
     private IntentIntegrator qrScan;
     SharedPreferences sharedPreferences;
-    String wserialKey;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,6 @@ public class QRCodeScanner extends AppCompatActivity {
         qrScan = new IntentIntegrator(this);
 
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        wserialKey = sharedPreferences.getString("serialKey", "*****");
 
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,16 +55,15 @@ public class QRCodeScanner extends AppCompatActivity {
             }
             else
             {
-                if(result.getContents().equals("music"))
-                {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("QRScanSerialKey",result.getContents());
+                editor.apply();
 
-                }
+                //Toast.makeText(this,result.getContents(),Toast.LENGTH_LONG).show();
 
+                Intent next = new Intent(getApplicationContext(),Payment.class);
+                startActivity(next);
 
-                else
-                {
-                    Toast.makeText(this,"Result not found",Toast.LENGTH_LONG).show();
-                }
             }
         }
         else
