@@ -227,12 +227,12 @@ public class Profile extends AppCompatActivity {
                 return true;
 
             case R.id.payment:
-                Intent p = new Intent(getApplicationContext(),QRCodeShow.class);
+                Intent p = new Intent(getApplicationContext(),QRCodeScanner.class);
                 startActivity(p);
                 return true;
 
             case R.id.qrcode:
-                Intent q = new Intent(getApplicationContext(),QRCodeScanner.class);
+                Intent q = new Intent(getApplicationContext(),QRCodeShow.class);
                 startActivity(q);
                 return true;
 
