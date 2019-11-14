@@ -22,8 +22,8 @@
 
     <TextView
         android:id="@+id/amountview"
-        android:layout_width="113dp"
-        android:layout_height="80dp"
+        android:layout_width="328dp"
+        android:layout_height="66dp"
         android:hint="0"
         android:textAlignment="center"
         android:textSize="50sp"
