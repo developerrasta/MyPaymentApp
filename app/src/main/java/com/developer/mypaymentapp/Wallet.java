@@ -49,8 +49,7 @@ public class Wallet extends AppCompatActivity implements PaymentResultListener {
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         serialKey = sharedPreferences.getString("serialKey", "*****");
 
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://lilac-wing.000webhostapp.com/PaymentApplication/wallet.php",
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://lilac-wing.000webhostapp.com/PaymentApplication/walletretrieve.php",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -61,7 +60,6 @@ public class Wallet extends AppCompatActivity implements PaymentResultListener {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject json_obj = jsonArray.getJSONObject(i);
                                 showAmount = json_obj.getString("wallet");
-
                                 amtview.setText(showAmount);
 
                             }
@@ -130,8 +128,8 @@ public class Wallet extends AppCompatActivity implements PaymentResultListener {
                 options.put("amount", total);
 
                 JSONObject preFill = new JSONObject();
-                preFill.put("email", "sikander@gkmit.co");
-                preFill.put("contact", "9680224241");
+                preFill.put("email", "nirmal.mohanlal6@gmail.com");
+                preFill.put("contact", "8129656368");
 
                 options.put("prefill", preFill);
 
@@ -145,6 +143,50 @@ public class Wallet extends AppCompatActivity implements PaymentResultListener {
         @Override
         public void onPaymentSuccess(String razorpayPaymentID) {
             Toast.makeText(this, "Payment successfully done! " + razorpayPaymentID, Toast.LENGTH_SHORT).show();
+
+
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://lilac-wing.000webhostapp.com/PaymentApplication/wallet.php",
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            //If we are getting success from server
+                            //Toast.makeText(Profile.this, response, Toast.LENGTH_LONG).show();
+                            try {
+                                JSONArray jsonArray = new JSONArray(response);
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject json_obj = jsonArray.getJSONObject(i);
+
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            //error handling
+                        }
+
+                    }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    //Adding parameters to request
+
+
+                    params.put("serialkey", serialKey); //serialKey = data stored in shared preference
+                    params.put("amount",amt.getText().toString());
+
+                    //returning parameter
+                    return params;
+                }
+            };
+
+            //Adding the string request to the queue
+            RequestQueue requestQueue = Volley.newRequestQueue(Wallet.this);
+            requestQueue.add(stringRequest);
 
         }
 

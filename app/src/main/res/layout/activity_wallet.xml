@@ -24,7 +24,7 @@
         android:id="@+id/amountview"
         android:layout_width="113dp"
         android:layout_height="80dp"
-        android:hint="Amount"
+        android:hint="0"
         android:textAlignment="center"
         android:textSize="50sp"
         android:textStyle="bold"
