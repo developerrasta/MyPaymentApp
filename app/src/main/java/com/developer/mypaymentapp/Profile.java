@@ -19,6 +19,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -28,6 +35,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Profile extends AppCompatActivity {
 
@@ -35,7 +43,7 @@ public class Profile extends AppCompatActivity {
     Button chg;
     TextView upi, uname;
     String userName,key,imagekey;
-    String showupikey, showuser;
+    String showupikey, showuser,serialKey;
     private int PICK_IMAGE_REQUEST = 1;
     private Uri filePath;
     SharedPreferences sharedPreferences;
@@ -75,6 +83,57 @@ public class Profile extends AppCompatActivity {
 
             }
         });
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://lilac-wing.000webhostapp.com/PaymentApplication/Profile.php",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //If we are getting success from server
+                        //Toast.makeText(Profile.this, response, Toast.LENGTH_LONG).show();
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject json_obj = jsonArray.getJSONObject(i);
+                                showupikey = json_obj.getString("upi");
+                                showuser = json_obj.getString("username");
+                                serialKey = json_obj.getString("serialkey");
+                                upi.setText(showupikey);
+                                uname.setText(showuser);
+
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("serialKey",serialKey);
+                                editor.apply();
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //error handling
+                    }
+
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                //Adding parameters to request
+
+
+                params.put("username", userName); //userName = data stored in shared preference
+
+                //returning parameter
+                return params;
+            }
+        };
+
+        //Adding the string request to the queue
+        RequestQueue requestQueue = Volley.newRequestQueue(Profile.this);
+        requestQueue.add(stringRequest);
     }
         private void showFileChooser () {
             Intent intent = new Intent();
@@ -182,55 +241,7 @@ public class Profile extends AppCompatActivity {
         }
     }
 
-//        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://lilac-wing.000webhostapp.com/Payment%20Application/Profile.php",
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        //If we are getting success from server
-//                        //Toast.makeText(Profile.this, response, Toast.LENGTH_LONG).show();
-//                        try {
-//                            JSONArray jsonArray = new JSONArray(response);
-//                            for (int i = 0; i < jsonArray.length(); i++) {
-//                                JSONObject json_obj = jsonArray.getJSONObject(i);
-//                                showupikey = json_obj.getString("upi");
-//                                showuser = json_obj.getString("username");
-//                                upi.setText(showupikey);
-//                                uname.setText(showuser);
-//
-//                                SharedPreferences.Editor editor = sharedPreferences.edit();
-//                                editor.putString("UpiKey",showupikey);
-//                                editor.apply();
-//
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        //error handling
-//                    }
-//
-//                }) {
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                Map<String, String> params = new HashMap<>();
-//                //Adding parameters to request
-//
-//
-//                params.put("username", userName); //userName = data stored in shared preference
-//
-//                //returning parameter
-//                return params;
-//            }
-//        };
-//
-//        //Adding the string request to the queue
-//        RequestQueue requestQueue = Volley.newRequestQueue(Profile.this);
-//        requestQueue.add(stringRequest);
+
     }
 
 

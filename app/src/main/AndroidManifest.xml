@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
 
 
     <application
@@ -29,6 +30,10 @@
         <activity android:name=".Wallet" />
         <activity android:name=".Profile" />
         <activity android:name=".LogIn" />
+
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_vH0V5q3JMZJYHn" />
     </application>
 
 </manifest>
