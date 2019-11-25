@@ -59,7 +59,7 @@ public class QRCodeScanner extends AppCompatActivity {
                 editor.putString("QRScanSerialKey",result.getContents());
                 editor.apply();
 
-                Toast.makeText(this,result.getContents(),Toast.LENGTH_LONG).show();
+                //Toast.makeText(this,result.getContents(),Toast.LENGTH_LONG).show();
 
                 Intent next = new Intent(getApplicationContext(),Payment.class);
                 startActivity(next);

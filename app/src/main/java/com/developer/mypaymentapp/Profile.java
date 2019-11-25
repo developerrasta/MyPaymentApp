@@ -43,7 +43,7 @@ public class Profile extends AppCompatActivity {
     Button chg;
     TextView upi, uname;
     String userName,key,imagekey;
-    String showupikey, showuser,serialKey,recieverupi;
+    String showupikey, showuser,serialKey;
     private int PICK_IMAGE_REQUEST = 1;
     private Uri filePath;
     SharedPreferences sharedPreferences;
@@ -97,13 +97,11 @@ public class Profile extends AppCompatActivity {
                                 showupikey = json_obj.getString("upi");
                                 showuser = json_obj.getString("username");
                                 serialKey = json_obj.getString("serialkey");
-                                recieverupi = json_obj.getString("upi");
                                 upi.setText(showupikey);
                                 uname.setText(showuser);
 
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("serialKey",serialKey);
-                                editor.putString("RecieverUPI",recieverupi);
                                 editor.apply();
 
                             }
